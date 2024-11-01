@@ -8,6 +8,9 @@ title = "NAME_OF_YOUR_BLOG"
 # Change the default theme to be use when building the site with Hugo
 theme = "LoveIt"
 
+[pagination]
+  pagerSize = 12
+
 [languages]
   [languages.en]
     weight = 1
@@ -18,9 +21,9 @@ theme = "LoveIt"
     # whether to include Chinese/Japanese/Korean
     hasCJKLanguage = false
     # default amount of posts in each pages
-    paginate = 12
+    # paginate = 12
     # [UA-XXXXXXXX-X] google analytics code
-    googleAnalytics = ""
+    # googleAnalytics = ""
     # copyright description used only for seo schema
     copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License."
     # Menu config
@@ -68,6 +71,9 @@ theme = "LoveIt"
         url = "https://yourgithuburl"
         title = "GitHub"
         weight = 5
+
+[languages.en.params]
+  googleanalytics = "YOUR_GOOGLE_ANALYTICS_ID"
 
 [params]
   #  LoveIt theme version
@@ -548,4 +554,3 @@ theme = "LoveIt"
   page = ["HTML", "MarkDown"]
   section = ["HTML", "RSS"]
   taxonomy = ["HTML", "RSS"]
-  taxonomyTerm = ["HTML"]
