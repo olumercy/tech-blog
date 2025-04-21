@@ -16,12 +16,6 @@ jobs:
     - name: checkout repository
       uses: actions/checkout@v3
 
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with: 
-        role-to-assume: arn:aws:iam::457087769557:role/github-action-to-aws-oidc
-        aws-region: eu-west-1
-
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v2
       with:
@@ -34,5 +28,17 @@ jobs:
     - name: Upload generated site as artifact
       uses: actions/upload-artifact@v4
       with:
-        name: public
-        path: public
+        name: tech-blog
+        path: public/**
+        
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with: 
+        role-to-assume: ${{secret.IAM_ROLE}}
+        aws-region: ${{secret.AWS_REGION}} 
+
+    - name: Deploy to S3 Bucket
+      run: aws s3 sync public/ s3://olumercy-cloud-talent-v1 --delete
+
+    - name: Invalidate CloudFront cache
+      run: aws cloudfront create-invalidation --distribution-id E2D6N7IC8X60XC --paths "/*"
