@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main  # Set a branch to deploy
+permissions:
+   id-token: write # This is required for requesting the JWT
+   contents: read  # This is required for actions/checkout
 
 jobs:
   build:
@@ -12,6 +15,12 @@ jobs:
     steps:
     - name: checkout repository
       uses: actions/checkout@v3
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with: 
+        role-to-assume: arn:aws:iam::457087769557:role/github-action-to-aws-oidc
+        aws-region: eu-west-1
 
     - name: Setup Hugo
       uses: peaceiris/actions-hugo@v2
