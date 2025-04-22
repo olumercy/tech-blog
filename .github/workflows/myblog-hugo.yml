@@ -9,6 +9,9 @@ permissions:
    id-token: write # This is required for requesting the JWT
    contents: read  # This is required for actions/checkout
 
+concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -39,7 +42,7 @@ jobs:
         aws-region: ${{secrets.AWS_REGION}} 
 
     - name: Deploy to S3 Bucket
-      run: aws s3 sync public/ s3://olumercy-cloud-talent-v1 --delete
+      run: aws s3 sync public/ s3://${{secrets.NAME_S3_BUCKET}} --delete
 
     - name: Invalidate CloudFront cache
-      run: aws cloudfront create-invalidation --distribution-id E2D6N7IC8X60XC --paths "/*"
+      run: aws cloudfront create-invalidation --distribution-id ${{secrets.CLOUDFRONT_ID}} --paths "/*"
