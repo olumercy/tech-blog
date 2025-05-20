@@ -29,3 +29,11 @@ ehthumbs.db
 # Other
 *.bak
 *.old
+
+# Terraform files to exclude
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+*.tfvars
+*.tfplan
+crash.log
