@@ -46,10 +46,12 @@ jobs:
 
 
        - name: Initialize Terraform
+         id: init
          run: terraform init
         
        - name: Plan Terraform deployment
-         run: terraform plan
+         id: plan
+         run: terraform plan -no-color
 
        - name: Apply Terraform changes
          run: terraform apply -auto-approve
