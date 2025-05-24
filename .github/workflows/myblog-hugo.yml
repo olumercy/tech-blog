@@ -35,9 +35,9 @@ jobs:
            terraform_version: "1.9.7"
 
         #Credentials for HCP Terraform (app.terraform.io) 
-      # - uses: hashicorp/setup-terraform@v3 
-      #   with: 
-      #     cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+       - uses: hashicorp/setup-terraform@v3 
+         with: 
+           cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
 
        - name: Initialize Terraform
