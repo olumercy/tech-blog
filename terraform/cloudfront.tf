@@ -77,7 +77,7 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
         }
 
         resources = [
-            "arn:aws:s3:::${aws_s3_bucket.cloud_talent_blog}/*"  # Specifies all objects in the bucket.
+            "arn:aws:s3:::${aws_s3_bucket.cloud_talent_blog.bucket}/*"  # Specifies all objects in the bucket.
         ]
 
         condition {
