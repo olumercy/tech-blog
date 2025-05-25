@@ -1,4 +1,4 @@
-variable "access_key" {
+/*variable "access_key" {
     type=string
     sensitive = true
 }
@@ -16,9 +16,9 @@ variable "token" {
 
 
 }
-
+*/
 
 variable "region" {
-    type = string
+    default = "eu-west-1"
     sensitive = false
 }
