@@ -35,14 +35,14 @@ jobs:
         name: tech-blog
         path: public/**
         
-    - name: Configure AWS credentials
-      uses: aws-actions/configure-aws-credentials@v2
-      with: 
-        role-to-assume: ${{secrets.IAM_ROLE}}
-        aws-region: ${{secrets.AWS_REGION}} 
+   # - name: Configure AWS credentials
+   #   uses: aws-actions/configure-aws-credentials@v2
+   #   with: 
+    #    role-to-assume: ${{secrets.IAM_ROLE}}
+     #   aws-region: ${{secrets.AWS_REGION}} 
 
-    - name: Deploy to S3 Bucket
-      run: aws s3 sync public/ s3://${{secrets.NAME_S3_BUCKET}} --delete
+    #- name: Deploy to S3 Bucket
+     # run: aws s3 sync public/ s3://${{secrets.NAME_S3_BUCKET}} --delete
 
-    - name: Invalidate CloudFront cache
-      run: aws cloudfront create-invalidation --distribution-id ${{secrets.CLOUDFRONT_ID}} --paths "/*"
+    #- name: Invalidate CloudFront cache
+     # run: aws cloudfront create-invalidation --distribution-id ${{secrets.CLOUDFRONT_ID}} --paths "/*"
