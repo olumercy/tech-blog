@@ -1,5 +1,5 @@
 
-name: Build Hugo blog
+name: Build Hugo blog with Terraform
 
 on:
   push:
