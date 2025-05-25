@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
 # Define an S3 bucket policy to allow CloudFront access
 resource "aws_s3_bucket_policy" "cloud_talent_blog" {
     depends_on = [ 
-        data.aws_iam_policy_document.cloud_talent_blog  # Ensures the IAM policy document is created first.
+        data.aws_iam_policy_document.cloud_talent_blog.json  # Ensures the IAM policy document is created first.
     ]
     bucket = aws_s3_bucket.cloud_talent_blog.id  # Specifies the S3 bucket.
     policy = data.aws_iam_policy_document.cloud_talent_blog.json  # Uses an IAM policy document.
