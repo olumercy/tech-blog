@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
     statement {
         sid = "3"
         effect = "Allow"
-        actions = [ "s3:GetObject", 
+        actions = ["s3:GetObject", 
                     "s3:PutObject",  # Allows uploading objects to S3
                     "s3:ListBucket",  # Allows listing objects in the S3 bucket
                     "s3:DeleteObject",  # Allows deleting objects from S3
@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
 # Define an S3 bucket policy to allow CloudFront access
 resource "aws_s3_bucket_policy" "cloud_talent_blog" {
     depends_on = [ 
-        data.aws_iam_policy_document.cloud_talent_blog.json  # Ensures the IAM policy document is created first.
+        data.aws_iam_policy_document.cloud_talent_blog  # Ensures the IAM policy document is created first.
     ]
     bucket = aws_s3_bucket.cloud_talent_blog.id  # Specifies the S3 bucket.
     policy = data.aws_iam_policy_document.cloud_talent_blog.json  # Uses an IAM policy document.
