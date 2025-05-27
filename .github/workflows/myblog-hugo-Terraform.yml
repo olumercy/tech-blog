@@ -63,9 +63,9 @@ jobs:
            cloudFront_ID: ${{ steps.tf_out.outputs.cloudFront_ID }}
            cloudFront_domain_name: ${{ steps.tf_out.outputs.cloudFront_domain_name }}
 
-           
+
        - name: Capture Terraform outputs
-         id: terraform_outputs
+         id: tf_out
          run: |
            echo "s3_bucket=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
            echo "cloudfront_id=$(terraform output -raw cloudfront_id)" >> $GITHUB_ENV
