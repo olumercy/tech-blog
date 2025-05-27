@@ -61,29 +61,35 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
     ]
     
     statement {
-        sid = "3"
+        sid = "AllowCloudFrontAccess"
         effect = "Allow"
         actions = ["s3:GetObject", 
                     "s3:PutObject",  # Allows uploading objects to S3
                     "s3:ListBucket",  # Allows listing objects in the S3 bucket
-                    "s3:DeleteObject",  # Allows deleting objects from S3
-                    "cloudfront:CreateInvalidation"  # Allows invalidating cached CloudFront objects
+                    "s3:DeleteObject"  # Allows deleting objects from S3
+                   # "cloudfront:CreateInvalidation"  # Allows invalidating cached CloudFront objects
                     
         ]  # Grants permission to read objects from S3.
 
         principals {
-            identifiers = ["cloudfront.amazonaws.com"]  # Allows CloudFront as a principal.
-            type = "Service"
+                "Service": "cloudfront.amazonaws.com"
+           # identifiers = ["cloudfront.amazonaws.com"]  # Allows CloudFront as a principal.
+            #type = "Service"
         }
 
         resources = [
-            "arn:aws:s3:::${aws_s3_bucket.cloud_talent_blog.bucket}/*"  # Specifies all objects in the bucket.
+            "arn:aws:s3:::${aws_s3_bucket.cloud_talent_blog.id}/*"  # Specifies all objects in the bucket.
         ]
 
         condition {
-            test = "StringEquals"
-            variable = "AWS:SourceArn"
-            values = [aws_cloudfront_distribution.cloud_talent_CDN.id]  # Restricts access to this CloudFront distribution.
+           # test = "StringEquals"
+           # variable = "AWS:SourceArn"
+           # values = [aws_cloudfront_distribution.cloud_talent_CDN.id]  # Restricts access to this CloudFront distribution.
+           "StringEquals": {
+                            "AWS:SourceArn":
+                            "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${aws_cloudfront_distribution.cloud_talent_CDN.id}
+
+           }
         }
     }
 }
