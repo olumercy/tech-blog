@@ -84,8 +84,8 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
         actions = ["s3:GetObject", 
                     "s3:PutObject",  # Allows uploading objects to S3
                     "s3:ListBucket",  # Allows listing objects in the S3 bucket
-                    "s3:DeleteObject"  # Allows deleting objects from S3
-                   # "cloudfront:CreateInvalidation"  # Allows invalidating cached CloudFront objects
+                    "s3:DeleteObject",  # Allows deleting objects from S3
+                    "cloudfront:CreateInvalidation"  # Allows invalidating cached CloudFront objects
                     
         ]  
 
@@ -95,9 +95,9 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
 
         condition {
             test = "StringEquals"
-            variable = "AWS:SourceArn"
-            values = [aws_cloudfront_distribution.cloud_talent_CDN.id]  # Restricts access to this CloudFront distribution.
-        }
+            variable = "AWS:SourceArn" 
+            values = ["arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${aws_cloudfront_distribution.cloud_talent_CDN.id}] 
+             
     }
 }
 
