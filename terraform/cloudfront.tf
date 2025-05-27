@@ -81,11 +81,8 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
             type = "Service"
         }
 
-        actions = ["s3:GetObject", 
-                    "s3:PutObject",  # Allows uploading objects to S3
-                    "s3:ListBucket",  # Allows listing objects in the S3 bucket
-                    "s3:DeleteObject",  # Allows deleting objects from S3
-                    "cloudfront:CreateInvalidation"  # Allows invalidating cached CloudFront objects
+        actions = ["s3:GetObject" 
+                    
                     
         ]  
 
