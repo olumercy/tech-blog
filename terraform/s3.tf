@@ -1,6 +1,7 @@
 # Creates an S3 bucket named "terraform-olumercy-bucket" with a tag specifying that it belongs to the development environment
 resource "aws_s3_bucket" "cloud_talent_blog" {
     bucket = "terraform-olumercy-bucket"
+    force_destroy = true
     tags = {
         environment = "dev"
   }

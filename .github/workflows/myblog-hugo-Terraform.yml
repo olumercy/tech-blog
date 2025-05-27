@@ -61,9 +61,9 @@ jobs:
        - name: Capture Terraform outputs
          id: terraform_outputs
          run: |
-           echo "S3_BUCKET=$(terraform output -raw s3_bucket_name)" >> $GITHUB_ENV
-           echo "CLOUDFRONT_ID=$(terraform output -raw cloudfront_id)" >> $GITHUB_ENV
-           echo "CLOUDFRONT_DOMAIN=$(terraform output -raw cloudfront_domain)" >> $GITHUB_ENV
+           echo "s3_bucket=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
+           echo "cloudfront_id=$(terraform output -raw cloudfront_id)" >> $GITHUB_ENV
+           echo "cloudFront_domain_name=$(terraform output -raw cloudFront_domain_name)" >> $GITHUB_ENV
 
   build:
     needs: terraform
