@@ -58,6 +58,12 @@ jobs:
          id: apply
          run: cd terraform && terraform apply -auto-approve
 
+       - outputs:
+           s3_bucket: ${{ steps.tf_out.outputs.s3_bucket }}
+           cloudFront_ID: ${{ steps.tf_out.outputs.cloudFront_ID }}
+           cloudFront_domain_name: ${{ steps.tf_out.outputs.cloudFront_domain_name }}
+
+           
        - name: Capture Terraform outputs
          id: terraform_outputs
          run: |
