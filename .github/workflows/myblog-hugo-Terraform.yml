@@ -14,13 +14,15 @@ permissions:
 concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
 
+env:
+  AWS_REGION: 'eu-west-1'
+
+
 jobs:
   terraform:
     name: "Terraform"
     runs-on: ubuntu-latest
-    env:
-      AWS_REGION: 'eu-west-1'
-
+   
     
     outputs:
            s3_bucket: ${{ steps.tf_out.outputs.s3_bucket }}
@@ -68,9 +70,9 @@ jobs:
        - name: Capture Terraform outputs
          id: tf_out
          run: |
-           echo "s3_bucket=$(terraform output -raw s3_bucket)" >> $GITHUB_ENV
-           echo "cloudfront_id=$(terraform output -raw cloudfront_id)" >> $GITHUB_ENV
-           echo "cloudFront_domain_name=$(terraform output -raw cloudFront_domain_name)" >> $GITHUB_ENV
+           echo "s3_bucket=$(terraform output -raw s3_bucket)" >> $GITHUB_OUTPUT
+           echo "cloudfront_id=$(terraform output -raw cloudfront_id)" >> $GITHUB_OUTPUT
+           echo "cloudFront_domain_name=$(terraform output -raw cloudFront_domain_name)" >> $GITHUB_OUTPUT
 
   build:
     needs: terraform
