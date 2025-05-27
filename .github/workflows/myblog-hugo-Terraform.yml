@@ -21,6 +21,12 @@ jobs:
     env:
       AWS_REGION: 'eu-west-1'
 
+    
+    outputs:
+           s3_bucket: ${{ steps.tf_out.outputs.s3_bucket }}
+           cloudFront_ID: ${{ steps.tf_out.outputs.cloudFront_ID }}
+           cloudFront_domain_name: ${{ steps.tf_out.outputs.cloudFront_domain_name }}
+
     steps:
        - name: Checkout repository
          uses: actions/checkout@v3
@@ -57,11 +63,6 @@ jobs:
        - name: Apply Terraform changes
          id: apply
          run: cd terraform && terraform apply -auto-approve
-
-       - outputs:
-           s3_bucket: ${{ steps.tf_out.outputs.s3_bucket }}
-           cloudFront_ID: ${{ steps.tf_out.outputs.cloudFront_ID }}
-           cloudFront_domain_name: ${{ steps.tf_out.outputs.cloudFront_domain_name }}
 
 
        - name: Capture Terraform outputs
