@@ -77,15 +77,13 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
         }
 
         resources = [
-            "arn:aws:s3:::${aws_s3_bucket.cloud_talent_blog.id}/*"  # Specifies all objects in the bucket.
+            "arn:aws:s3:::${aws_s3_bucket.cloud_talent_blog.bucket}/*"  # Specifies all objects in the bucket.
         ]
 
         condition {
             test = "StringEquals"
             variable = "AWS:SourceArn"
-            # Restricts access to this CloudFront distribution.
-            values = ["arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${aws_cloudfront_distribution.cloud_talent_CDN.id}]  
-          
+            values = [aws_cloudfront_distribution.cloud_talent_CDN.id]  # Restricts access to this CloudFront distribution.
         }
     }
 }
