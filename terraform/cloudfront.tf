@@ -96,7 +96,9 @@ data "aws_iam_policy_document" "cloud_talent_blog" {
         condition {
             test = "StringEquals"
             variable = "AWS:SourceArn" 
-            values = ["arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${aws_cloudfront_distribution.cloud_talent_CDN.id}] 
+            values = [
+              "arn:aws:cloudfront::${data.aws_caller_identity.current.account_id}:distribution/${aws_cloudfront_distribution.cloud_talent_CDN.id}
+              ] 
              
     }
 }
