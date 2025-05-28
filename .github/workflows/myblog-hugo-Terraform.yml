@@ -9,7 +9,7 @@ on:
 
 permissions:
    id-token: write # This is required for requesting the JWT
-   contents: read  # This is required for actions/checkout     
+   contents: read  # This is required for actions/checkout
 
 concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
@@ -34,11 +34,11 @@ jobs:
        - name: Checkout repository
          uses: actions/checkout@v4
 
-       #- name: Configure AWS credentials
-       #  uses: aws-actions/configure-aws-credentials@v2
-       #  with: 
-       #     role-to-assume: ${{secrets.IAM_ROLE}}
-       #     aws-region: ${{secrets.AWS_REGION}}
+       - name: Configure AWS credentials
+         uses: aws-actions/configure-aws-credentials@v2
+         with: 
+            role-to-assume: ${{secrets.IAM_ROLE}}
+            aws-region: ${{secrets.AWS_REGION}}
 
        - name: Setup Terraform
          uses: hashicorp/setup-terraform@v3
@@ -101,9 +101,9 @@ jobs:
         path: public/**
 
   deploy:
-    needs: [build,terraform]
+    needs: [build, terraform]
     runs-on: ubuntu-latest
-   
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -113,18 +113,16 @@ jobs:
       with: 
         role-to-assume: ${{secrets.IAM_ROLE}}
         aws-region: ${{secrets.AWS_REGION}}
-      
 
     - name: Download artifact
       uses: actions/download-artifact@v4
       with:
         name: tech-blog
-        
+        #path: public
 
     - name: Sync Hugo site to S3
       run: |
         aws s3 sync public/ s3://${{ needs.terraform.outputs.s3_bucket }} --delete
-
 
     - name: Invalidate CloudFront cache
       run: |
