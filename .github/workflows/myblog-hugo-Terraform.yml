@@ -99,10 +99,7 @@ jobs:
   deploy:
     needs: [build,terraform]
     runs-on: ubuntu-latest
-    permissions:
-    id-token: write # This is required for requesting the JWT
-    contents: read  # This is required for actions/checkout
-
+   
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -112,6 +109,7 @@ jobs:
       with: 
         role-to-assume: ${{secrets.IAM_ROLE}}
         aws-region: ${{secrets.AWS_REGION}}
+      
 
     - name: Download artifact
       uses: actions/download-artifact@v4
@@ -122,6 +120,11 @@ jobs:
     - name: Sync Hugo site to S3
       run: |
         aws s3 sync public/ s3://${{ needs.terraform.outputs.s3_bucket }} --delete
+        
+      permissions:
+      id-token: write # This is required for requesting the JWT
+      contents: read  # This is required for actions/checkout
+
 
     - name: Invalidate CloudFront cache
       run: |
