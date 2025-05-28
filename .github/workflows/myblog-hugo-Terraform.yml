@@ -97,7 +97,7 @@ jobs:
         path: public/**
 
   deploy:
-    needs: build
+    needs: [build,terraform]
     runs-on: ubuntu-latest
     permissions:
     id-token: write # This is required for requesting the JWT
