@@ -29,6 +29,7 @@ jobs:
            cloudFront_ID: ${{ steps.tf_out.outputs.cloudFront_ID }}
            cloudFront_domain_name: ${{ steps.tf_out.outputs.cloudFront_domain_name }}
 
+
     steps:
        - name: Checkout repository
          uses: actions/checkout@v4
@@ -105,10 +106,24 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - name: Deploy to S3 Bucket
-      run: aws s3 sync public/ s3://$S3_BUCKET --delete
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with: 
+        role-to-assume: ${{secrets.IAM_ROLE}}
+        aws-region: ${{secrets.AWS_REGION}}
+
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: tech-blog
+        path: public
+
+    - name: Sync Hugo site to S3
+      run: |
+        aws s3 sync public/ s3://${{ needs.terraform.outputs.s3_bucket }} --delete
 
     - name: Invalidate CloudFront cache
-      run: aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_ID --paths "/*"
+      run: |
+        aws cloudfront create-invalidation --distribution-id ${{ needs.terraform.outputs.cloudFront_ID }} --paths "/*""
