@@ -112,7 +112,7 @@ jobs:
       uses: aws-actions/configure-aws-credentials@v2
       with: 
         role-to-assume: ${{secrets.IAM_ROLE}}
-        aws-region: ${{secrets.AWS_REGION}}
+        aws-region: ${{env.AWS_REGION}}
 
     - name: Download artifact
       uses: actions/download-artifact@v4
@@ -122,7 +122,7 @@ jobs:
 
     - name: Sync Hugo site to S3
       run: |
-        aws s3 sync public/ s3://${{ needs.terraform.outputs.s3_bucket }} --delete
+        aws s3 sync . s3://${{ needs.terraform.outputs.s3_bucket }} --delete
 
     - name: Invalidate CloudFront cache
       run: |
