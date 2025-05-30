@@ -7,8 +7,7 @@ resource "aws_s3_bucket" "cloud_talent_blog" {
   }
 }
 
-#the block below is commented out so as to disble static website for s3 \
-bucket and enable Origin access control for cloudfront
+#the block below is commented out so as to disble static website for s3 bucket and enable Origin access control for cloudfront
 
 # Configures the S3 bucket as a static website, setting "index.html" as the default document
 #resource "aws_s3_bucket_website_configuration" "cloud_talent_blog" {
