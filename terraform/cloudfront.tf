@@ -9,7 +9,7 @@ resource "aws_cloudfront_origin_access_control" "webblog_access" {
 #Add a CloudFront Function that appends index.html to requests missing a file name
 resource "aws_cloudfront_function" "add_index_html" {
   name    = "AddIndexHtmlFunction"
-  runtime = "cloudfront-js-2.0"
+  runtime = "cloudfront-js-1.0"
   publish = true
   code    = <<EOF
   function handler(event) {
