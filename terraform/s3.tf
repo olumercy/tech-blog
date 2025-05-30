@@ -7,14 +7,17 @@ resource "aws_s3_bucket" "cloud_talent_blog" {
   }
 }
 
-# Configures the S3 bucket as a static website, setting "index.html" as the default document
-resource "aws_s3_bucket_website_configuration" "cloud_talent_blog" {
-  bucket = aws_s3_bucket.cloud_talent_blog.id
+#the block below is commented out so as to disble static website for s3 /
+bucket and enable Origin access control for cloudfront
 
-  index_document {
-    suffix = "index.html"
-  }
-}
+# Configures the S3 bucket as a static website, setting "index.html" as the default document
+#resource "aws_s3_bucket_website_configuration" "cloud_talent_blog" {
+#  bucket = aws_s3_bucket.cloud_talent_blog.id
+
+#  index_document {
+#    suffix = "index.html"
+#  }
+#}
 
 # Defines public access settings for the bucket, overriding default security settings
 resource "aws_s3_bucket_public_access_block" "cloud_talent_blog" {
