@@ -1,15 +1,16 @@
 async function handler(event) {
     const request = event.request;
-    const uri = request.uri;
-    
-    // Check whether the URI is missing a file name.
+    let uri = request.uri;
+
+    // Append 'index.html' if the URI ends with '/' or lacks a file extension
     if (uri.endsWith('/')) {
-        request.uri += 'index.html';
-    } 
-    // Check whether the URI is missing a file extension.
-    else if (!uri.includes('.')) {
-        request.uri += '/index.html';
+        uri += 'index.html';
+    } else if (!uri.includes('.')) {
+        uri += '/index.html';
     }
 
+    // Update the request URI with the modified value
+    request.uri = uri;
+    
     return request;
 }
