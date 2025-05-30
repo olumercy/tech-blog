@@ -11,17 +11,17 @@ resource "aws_cloudfront_function" "add_index_html" {
   name    = "AddIndexHtmlFunction"
   runtime = "cloudfront-js-1.0"
   publish = true
-  code    = file("code/function.js")
-  #function handler(event) {
-    #var request = event.request;
+  code    = <<EOF
+  function handler(event) {
+    var request = event.request;
 
-    #if (!request.uri.includes('.') && request.uri.endsWith('/')) {
-    #  request.uri += '/index.html';
-    #}
+    if (!request.uri.includes('.') && !request.uri.endsWith('/')) {
+      request.uri += '/index.html';
+    }
 
-  #  return request;
-  #}
-  #EOF
+    return request;
+  }
+  EOF
 }
 
 
