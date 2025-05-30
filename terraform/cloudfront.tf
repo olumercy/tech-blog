@@ -6,6 +6,25 @@ resource "aws_cloudfront_origin_access_control" "webblog_access" {
     signing_protocol = "sigv4"  # Uses Signature Version 4, a secure signing method.
 }
 
+#Add a CloudFront Function that appends index.html to requests missing a file name
+resource "aws_cloudfront_function" "add_index_html" {
+  name    = "AddIndexHtmlFunction"
+  runtime = "cloudfront-js-1.0"
+  publish = true
+  code    = <<EOF
+  function handler(event) {
+    var request = event.request;
+
+    if (!request.uri.includes('.') && !request.uri.endsWith('/')) {
+      request.uri += '/index.html';
+    }
+
+    return request;
+  }
+  EOF
+}
+
+
 # Configure the CloudFront distribution for serving content securely and efficiently.
 resource "aws_cloudfront_distribution" "cloud_talent_CDN" {
 
@@ -23,6 +42,12 @@ resource "aws_cloudfront_distribution" "cloud_talent_CDN" {
       cached_methods = [ "GET", "HEAD" ]  # Only caches GET and HEAD requests for efficiency.
       target_origin_id = aws_s3_bucket.cloud_talent_blog.id  # Associates this behavior with the S3 bucket.
       viewer_protocol_policy = "https-only"  # Enforces HTTPS for secure communication.
+
+      # Add the function association
+      function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.add_index_html.arn
+    }
 
       # Control forwarded request parameters to minimize unnecessary requests.
       forwarded_values {
