@@ -14,6 +14,7 @@ resource "aws_cloudfront_function" "add_index_html" {
   code    = <<EOF
   function handler(event) {
     var request = event.request;
+    var uri = request.uri;
 
     if (uri.endsWith('/')) {
         request.uri += 'index.html';
