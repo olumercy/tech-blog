@@ -9,10 +9,11 @@ resource "aws_cloudfront_origin_access_control" "webblog_access" {
 #Add a CloudFront Function that appends index.html to requests missing a file name
 resource "aws_cloudfront_function" "add_index_html" {
   name    = "AddIndexHtmlFunction"
-  runtime = "cloudfront-js-1.0"
+  runtime = "cloudfront-js-2.0"
   publish = true
-  code    = <<EOF
-  function handler(event) {
+  code    = file("code/function.js")
+ #code    = <<EOF
+  /*function handler(event) {
     var request = event.request;
 
     if (!request.uri.includes('.') && !request.uri.endsWith('/')) {
@@ -20,8 +21,8 @@ resource "aws_cloudfront_function" "add_index_html" {
     }
 
     return request;
-  }
-  EOF
+  }*/
+ #EOF
 }
 
 
